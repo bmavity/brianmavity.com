@@ -14,4 +14,4 @@ var server = http.createServer(function (req, res) {
   res.end(html);
 });
  
-server.listen(parseInt(process.ENV.port, 10) || 8000);
+server.listen(parseInt(process.env.PORT, 10) || 8000);

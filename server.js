@@ -1,17 +1,20 @@
-var http = require('http');
- 
-var server = http.createServer(function (req, res) {
-  res.writeHead(200, { "Content-Type": "text/html" });
-  var html = '<! DOCTYPE html>';
-  html += '<html>\n';
-  html += '  <head>\n';
-  html += '    <title>brianmavity.com</title>\n';
-  html += '  </head>\n';
-  html += '  <body>\n';
-  html += '    <h1>Hi, I&rsquo;m Brian </h1>\n';
-  html += '  </body>\n';
-  html += '</html>';
-  res.end(html);
+var sys = require('sys'),
+    connect = require('connect'),
+    app = require('express').createServer(),
+    pub = __dirname + '/public';
+
+app.set('view engine', 'jade');
+
+app.use(connect.compiler({
+  src: pub,
+  enable: ['scss', 'sass'],
+  compilers: [{ name: 'scss', compiler: require('scss/compiler') }]
+}));
+app.use(connect.staticProvider(pub));
+
+app.get('/', function(req, res) {
+  res.render('home', {});
 });
- 
-server.listen(parseInt(process.env.PORT, 10) || 8000);
+
+
+app.listen(parseInt(process.env.PORT, 10) || 8000);

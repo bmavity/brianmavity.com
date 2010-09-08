@@ -21,5 +21,8 @@ app.get('/contact', function(req, res) {
   res.render('contact', {});
 });
 
+app.get('/contact.html', function(req, res) {
+  res.redirect('contact', 301);
+});
 
 app.listen(parseInt(process.env.PORT, 10) || 8000);

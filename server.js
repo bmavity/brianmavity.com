@@ -29,4 +29,8 @@ app.get('/experience', function(req, res) {
   res.render('experience', {});
 });
 
+app.get('/experience.html', function(req, res) {
+  res.redirect('experience', 301);
+});
+
 app.listen(parseInt(process.env.PORT, 10) || 8000);

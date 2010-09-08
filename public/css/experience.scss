@@ -1,0 +1,21 @@
+#main .experience {
+	margin: 0 5.625em;
+  
+	h2 {
+		border-bottom: solid 0.125em #5E3E35;
+		margin-top: 1.125em;
+	}
+
+	#details {
+		.date-range {
+			float: right;
+			font-weight: bold;
+			margin-top: -1.25em;
+		}
+		.activity {
+			font-style: italic;
+		}
+		.activity-detail {
+			margin-left: 2.25em;
+		}
+}

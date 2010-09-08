@@ -25,4 +25,8 @@ app.get('/contact.html', function(req, res) {
   res.redirect('contact', 301);
 });
 
+app.get('/experience', function(req, res) {
+  res.render('experience', {});
+});
+
 app.listen(parseInt(process.env.PORT, 10) || 8000);

@@ -18,7 +18,11 @@ app.get('/', function(req, res) {
 });
 
 app.get('/contact', function(req, res) {
-  res.render('contact', {});
+  res.render('contact', {
+    locals: {
+      cssFiles: ['/css/contact.css']
+    }
+  });
 });
 
 app.get('/contact.html', function(req, res) {
@@ -26,7 +30,11 @@ app.get('/contact.html', function(req, res) {
 });
 
 app.get('/experience', function(req, res) {
-  res.render('experience', {});
+  res.render('experience', {
+    locals: {
+      cssFiles: ['/css/experience.css']
+    }
+  });
 });
 
 app.get('/experience.html', function(req, res) {

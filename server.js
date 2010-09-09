@@ -41,4 +41,9 @@ app.get('/experience.html', function(req, res) {
   res.redirect('experience', 301);
 });
 
+app.get('/echo', function(req, res) {
+  res.writeHead(200, { 'Content-Type': 'text' });
+  res.end(sys.inspect(req.headers));
+});
+
 app.listen(parseInt(process.env.PORT, 10) || 8000);

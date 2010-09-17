@@ -58,4 +58,15 @@ app.get('/blog', function(req, res) {
   });
 });
 
+app.get('/blog/:slug', function(req, res) {
+  repo.find(req.params.slug, function(post) {
+    res.render('post_index', {
+      locals: {
+        cssFiles: ['/css/blog.css'],
+        post: post
+      }
+    });
+  });
+});
+
 app.listen(parseInt(process.env.PORT, 10) || 8000);

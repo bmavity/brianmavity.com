@@ -1,6 +1,7 @@
 var sys = require('sys'),
     connect = require('connect'),
     app = require('express').createServer(),
+    repo = require('./mongo_repository'),
     pub = __dirname + '/public';
 
 connect.compiler.compilers['scss'] = require('scss/compiler');
@@ -44,6 +45,17 @@ app.get('/experience.html', function(req, res) {
 app.get('/echo', function(req, res) {
   res.writeHead(200, { 'Content-Type': 'text' });
   res.end(sys.inspect(req.headers));
+});
+
+app.get('/blog', function(req, res) {
+  repo.findAll(function(err, results) {
+    res.render('blog_index', {
+      locals: {
+        cssFiles: ['/css/blog.css'],
+        posts: results
+      }
+    });
+  });
 });
 
 app.listen(parseInt(process.env.PORT, 10) || 8000);

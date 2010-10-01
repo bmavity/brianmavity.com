@@ -68,8 +68,6 @@ app.get('/experience.html', function(req, res) {
   res.redirect('experience', 301);
 });
 
-app.get('/:slug', renderBlogPost);
-
 app.get('/blog', function(req, res) {
   renderBlogIndex(req, res);
 });

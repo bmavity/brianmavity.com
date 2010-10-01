@@ -41,6 +41,7 @@ app.get('/', function(req, res) {
     renderBlogIndex(req, res);
   } else {
     //res.render('home', {});
+    res.writeHead('Content-Type', 'text');
     res.end('test me');
   }
 });

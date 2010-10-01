@@ -1,7 +1,7 @@
 var sys = require('sys'),
     connect = require('connect'),
     app = require('express').createServer(),
-    repo = {},//require('./mongo_repository'),
+    repo = require('./mongo_repository'),
     pub = __dirname + '/public';
 
 connect.compiler.compilers['scss'] = require('scss/compiler');

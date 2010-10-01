@@ -40,7 +40,8 @@ app.get('/', function(req, res) {
   if(req.headers.host.indexOf('blog.') === 0) {
     renderBlogIndex(req, res);
   } else {
-    res.render('home', {});
+    //res.render('home', {});
+    res.end('test me');
   }
 });
 

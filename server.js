@@ -44,6 +44,10 @@ app.get('/', function(req, res) {
   }
 });
 
+app.get('/:staticFileName.html', function(req, res) {
+  res.redirect(req.params.staticFileName, 301);
+});
+
 app.get('/contact', function(req, res) {
   res.render('contact', {
     locals: {
@@ -52,20 +56,12 @@ app.get('/contact', function(req, res) {
   });
 });
 
-app.get('/contact.html', function(req, res) {
-  res.redirect('contact', 301);
-});
-
 app.get('/experience', function(req, res) {
   res.render('experience', {
     locals: {
       cssFiles: ['/css/experience.css']
     }
   });
-});
-
-app.get('/experience.html', function(req, res) {
-  res.redirect('experience', 301);
 });
 
 app.get('/blog', function(req, res) {

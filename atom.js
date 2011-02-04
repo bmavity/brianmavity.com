@@ -43,7 +43,7 @@ var createFeed = function(posts) {
       tag('title', {}, 'brianmavity.com'),
       tag('subtitle', {}, 'Learn with me'),
       tag('link', { href: 'http://blog.brianmavity.com/' }),
-      tag('updated', {}, new Date().toISOString()),
+      tag('updated', {}, posts[0].publishDate),
       tag('author', {},
         tag('name', {}, 'Brian Mavity')
       ),
@@ -53,6 +53,7 @@ var createFeed = function(posts) {
           tag('link', { href: 'http://blog.brianmavity.com/' + post.slug }),
           tag('id', {}, generateUniqueId(post)),
           tag('published', {}, post.publishDate),
+          tag('updated', {}, post.publishDate),
           tag('content', { type: 'html' }, post.content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'))
         )
       }).join('')

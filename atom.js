@@ -52,7 +52,7 @@ var createFeed = function(posts) {
           tag('link', { href: 'http://blog.brianmavity.com/' + post.slug }),
           tag('id', {}, generateUniqueId(post)),
           tag('published', {}, post.publishDate),
-          tag('content', { type: 'html' }, post.content)
+          tag('content', { type: 'html' }, post.content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'))
         )
       }).join('')
     )

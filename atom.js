@@ -39,6 +39,7 @@ var createFeed = function(posts) {
   return [
     '<?xml version="1.0" encoding="utf-8"?>',
     tag('feed', { xmlns: 'http://www.w3.org/2005/Atom' },
+      tag('id', {}, 'tag:brianmavity.com,2008:/blog'),
       tag('title', {}, 'brianmavity.com'),
       tag('subtitle', {}, 'Learn with me'),
       tag('link', { href: 'http://blog.brianmavity.com/' }),

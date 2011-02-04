@@ -68,6 +68,14 @@ app.get('/blog', function(req, res) {
   renderBlogIndex(req, res);
 });
 
+app.get('/blog/atom', function(req, res) {
+  repo.findAll(function(err, results) {
+    var feed = require('./atom').createFeed(results);
+    res.writeHead(200, { 'Content-Type': 'application/atom+xml' });
+    res.end(feed);
+  });
+});
+
 app.get('/blog/:slug', renderBlogPost);
 
 

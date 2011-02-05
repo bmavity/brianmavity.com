@@ -27,9 +27,15 @@ var closeTag = function(name, buffer) {
   buffer.push('>');
 };
 
-var tag = function(name, attributes, content) {
+var tag = function(name, attributes) {
   var output = [],
-      children = Array.prototype.slice.call(arguments, 2) || [];
+      children;
+  if(typeof attributes !== 'object') {
+    children = Array.prototype.slice.call(arguments, 1) || []; 
+    attributes = {};
+  } else {
+    children = Array.prototype.slice.call(arguments, 2) || []; 
+  }
   openTag(name, attributes, output);
   children.forEach(function(child) {
     output.push(child);

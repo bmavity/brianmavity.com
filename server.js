@@ -3,6 +3,7 @@ var sys = require('sys'),
     app = require('express').createServer(),
     repo = require('./mongo_repository'),
     pub = __dirname + '/public';
+var fs = require('fs');
 
 connect.compiler.compilers['scss'] = require('scss/compiler');
 
@@ -70,9 +71,14 @@ app.get('/blog', function(req, res) {
 
 app.get('/blog/atom', function(req, res) {
   repo.findAll(function(err, results) {
-    var feed = require('./atom').createFeed(results);
-    res.writeHead(200, { 'Content-Type': 'application/atom+xml' });
-    res.end(feed);
+    var xml = require('./xmlBase');
+    fs.readFile('./atom.js', function(err, buf) {
+      var vm = require('vm');
+          tags = xml.createTags([]);
+      vm.runInNewContext(buf.toString(), tags, 'v');
+      res.writeHead(200, { 'Content-Type': 'application/atom+xml' });
+      res.end(tags.createFeed(results));
+    });
   });
 });
 

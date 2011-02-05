@@ -55,7 +55,10 @@ var createFeed = function(posts) {
           tag('id', {}, generateUniqueId(post)),
           tag('published', {}, post.publishDate),
           tag('updated', {}, post.publishDate),
-          tag('content', { type: 'html' }, post.content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'))
+          tag('content', { type: 'html' }, post.content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')),
+          tag('author', {},
+            tag('name', {}, post.author)
+          )
         )
       }).join('')
     )

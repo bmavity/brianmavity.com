@@ -4,25 +4,37 @@ var it = function(obj, callback) {
   });
 };
 
+var addAttributes = function(attributes, buffer) {
+  it(attributes, function(name, val) {
+    buffer.push(' ');
+    buffer.push(name);
+    buffer.push('="');
+    buffer.push(val);
+    buffer.push('"');
+  });
+};
+
+var openTag = function(name, attributes, buffer) {
+  buffer.push('<');
+  buffer.push(name);
+  addAttributes(attributes, buffer);
+  buffer.push('>');
+};
+
+var closeTag = function(name, buffer) {
+  buffer.push('</');
+  buffer.push(name);
+  buffer.push('>');
+};
+
 var tag = function(name, attributes, content) {
   var output = [],
       children = Array.prototype.slice.call(arguments, 2) || [];
-  output.push('<');
-  output.push(name);
-  it(attributes, function(name, val) {
-    output.push(' ');
-    output.push(name);
-    output.push('="');
-    output.push(val);
-    output.push('"');
-  });
-  output.push('>');
+  openTag(name, attributes, output);
   children.forEach(function(child) {
     output.push(child);
   });
-  output.push('</');
-  output.push(name);
-  output.push('>');
+  closeTag(name, output);
   return output.join('');
 };
 

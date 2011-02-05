@@ -40,10 +40,9 @@ var tag = function(name, attributes, content) {
 
 var createTags = function(tagNames) {
   var tags = {};
-  //tagNames.forEach(function(tagName) {
-    //tags[tagName] = tag.bind({}, tagName);
-  //});
-  tags.tag = tag;
+  tagNames.forEach(function(tagName) {
+    tags[tagName] = tag.bind({}, tagName);
+  });
   return tags;
 };
 

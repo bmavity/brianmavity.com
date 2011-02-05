@@ -10,32 +10,29 @@ var generateUniqueId = function(post) {
 var createFeed = function(posts) {
   return [
     '<?xml version="1.0" encoding="utf-8"?>',
-    tag('feed', { xmlns: 'http://www.w3.org/2005/Atom' },
-      tag('link', { rel: 'self', href: 'http://blog.brianmavity.com/blog/atom' }),
-      tag('id', {}, 'tag:brianmavity.com,2008:/blog'),
-      tag('title', {}, 'brianmavity.com'),
-      tag('subtitle', {}, 'Learn with me'),
-      tag('link', { href: 'http://blog.brianmavity.com/' }),
-      tag('updated', {}, posts[0].publishDate),
-      tag('author', {},
-        tag('name', {}, 'Brian Mavity')
+    feed({ xmlns: 'http://www.w3.org/2005/Atom' },
+      link({ rel: 'self', href: 'http://blog.brianmavity.com/blog/atom' }),
+      id({}, 'tag:brianmavity.com,2008:/blog'),
+      title({}, 'brianmavity.com'),
+      subtitle({}, 'Learn with me'),
+      link({ href: 'http://blog.brianmavity.com/' }),
+      updated({}, posts[0].publishDate),
+      author({},
+        name({}, 'Brian Mavity')
       ),
       posts.map(function(post) {
-        return tag('entry', {},
-          tag('title', {}, post.title),
-          tag('link', { href: 'http://blog.brianmavity.com/' + post.slug }),
-          tag('id', {}, generateUniqueId(post)),
-          tag('published', {}, post.publishDate),
-          tag('updated', {}, post.publishDate),
-          tag('content', { type: 'html' }, post.content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')),
-          tag('author', {},
-            tag('name', {}, post.author)
+        return entry({},
+          title({}, post.title),
+          link({ href: 'http://blog.brianmavity.com/' + post.slug }),
+          id({}, generateUniqueId(post)),
+          published({}, post.publishDate),
+          updated({}, post.publishDate),
+          content({ type: 'html' }, post.content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')),
+          author({},
+            name({}, post.author)
           )
         )
       }).join('')
     )
   ].join('');
 };
-
-
-module.exports.createFeed = createFeed;

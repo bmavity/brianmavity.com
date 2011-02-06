@@ -27,6 +27,10 @@ var closeTag = function(name, buffer) {
   buffer.push('>');
 };
 
+var doc = function() {
+  return Array.prototype.slice.call(arguments, 0).join('');
+};
+
 var tag = function(name, attributes) {
   var output = [],
       children;
@@ -46,6 +50,7 @@ var tag = function(name, attributes) {
 
 var createTags = function(tagNames) {
   var tags = {};
+  tags.doc = doc;
   tagNames.forEach(function(tagName) {
     tags[tagName] = tag.bind({}, tagName);
   });

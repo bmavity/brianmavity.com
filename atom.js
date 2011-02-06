@@ -26,7 +26,7 @@ doc(
         id(generateUniqueId(post)),
         published(post.publishDate),
         updated(post.publishDate),
-        content({ type: 'html' }, post.content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')),
+        content({ type: 'html' }, htmlEncode(post.content)),
         author(
           name(post.author)
         )

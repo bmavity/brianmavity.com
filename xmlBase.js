@@ -14,21 +14,35 @@ var addAttributes = function(attributes, buffer) {
   });
 };
 
-var openTag = function(name, attributes, buffer) {
-  buffer.push('<');
-  buffer.push(name);
-  addAttributes(attributes, buffer);
-  buffer.push('>');
-};
-
 var closeTag = function(name, buffer) {
   buffer.push('</');
   buffer.push(name);
   buffer.push('>');
 };
 
+var createTags = function(tagNames) {
+  var tags = {};
+  tags.doc = doc;
+  tags.htmlEncode = htmlEncode;
+  tagNames.forEach(function(tagName) {
+    tags[tagName] = tag.bind({}, tagName);
+  });
+  return tags;
+};
+
 var doc = function() {
   return Array.prototype.slice.call(arguments, 0).join('');
+};
+
+var htmlEncode = function(html) {
+  return html.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+};
+
+var openTag = function(name, attributes, buffer) {
+  buffer.push('<');
+  buffer.push(name);
+  addAttributes(attributes, buffer);
+  buffer.push('>');
 };
 
 var tag = function(name, attributes) {
@@ -46,15 +60,6 @@ var tag = function(name, attributes) {
   });
   closeTag(name, output);
   return output.join('');
-};
-
-var createTags = function(tagNames) {
-  var tags = {};
-  tags.doc = doc;
-  tagNames.forEach(function(tagName) {
-    tags[tagName] = tag.bind({}, tagName);
-  });
-  return tags;
 };
 
 

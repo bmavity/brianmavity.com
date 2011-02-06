@@ -73,13 +73,11 @@ app.get('/blog/atom', function(req, res) {
   repo.findAll(function(err, results) {
     var xml = require('./xmlBase');
     fs.readFile('./atom.js', function(err, buf) {
-      var vm = require('vm');
+      var vm = require('vm'),
           tags = xml.createTags(['entry', 'feed', 'link', 'id', 'title', 'subtitle', 'updated', 'author', 'name', 'published', 'content']);
       tags.posts = results;
-      var r = vm.runInNewContext(buf.toString(), tags);
-      console.log(r);
       res.writeHead(200, { 'Content-Type': 'application/atom+xml' });
-      res.end(r);
+      res.end(vm.runInNewContext(buf.toString(), tags));
     });
   });
 });

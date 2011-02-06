@@ -48,7 +48,7 @@ var openTag = function(name, attributes, buffer) {
 var tag = function(name, attributes) {
   var output = [],
       children;
-  if(typeof attributes !== 'object') {
+  if(typeof attributes !== 'object' || Array.isArray(attributes)) {
     children = Array.prototype.slice.call(arguments, 1) || []; 
     attributes = {};
   } else {

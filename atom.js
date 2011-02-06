@@ -4,7 +4,7 @@ var generateUniqueId = function(post) {
     post.publishDate.slice(0, 10),
     ':/blog/',
     post.publishDate.replace(/T|Z|\.|:|-/g, '')
-  ].join('');
+  ];
 };
 
 doc(
@@ -31,6 +31,6 @@ doc(
           name(post.author)
         )
       )
-    }).join('')
+    })
   )
 );

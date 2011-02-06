@@ -56,7 +56,11 @@ var tag = function(name, attributes) {
   }
   openTag(name, attributes, output);
   children.forEach(function(child) {
-    output.push(child);
+    if(Array.isArray(child)) {
+      output.push(child.join(''));
+    } else {
+      output.push(child);
+    }
   });
   closeTag(name, output);
   return output.join('');

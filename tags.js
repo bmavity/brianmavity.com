@@ -1,3 +1,6 @@
+var fs = require('fs'),
+    vm = require('vm');
+
 var it = function(obj, callback) {
   Object.keys(obj).forEach(function(key, i) {
     callback(key, obj[key], i);
@@ -22,8 +25,6 @@ var closeTag = function(name, buffer) {
 
 var createTags = function(tagNames) {
   var tags = {};
-  tags.doc = doc;
-  tags.htmlEncode = htmlEncode;
   tagNames.forEach(function(tagName) {
     tags[tagName] = tag.bind({}, tagName);
   });
@@ -66,5 +67,17 @@ var tag = function(name, attributes) {
   return output.join('');
 };
 
-
-module.exports.createTags = createTags;
+module.exports.atom = function(fileName, posts, callback) {
+  fs.readFile(fileName, function(err, file) {
+    var atomTags = createTags(['entry', 'feed', 'link', 'id', 'title', 'subtitle', 'updated', 'author', 'name', 'published', 'content']);
+    atomTags.doc = doc;
+    atomTags.htmlEncode = htmlEncode;
+    atomTags.posts = posts;
+    try {
+      callback(null, vm.runInNewContext(file.toString(), atomTags));
+    }
+    catch(ex) {
+      callback(ex);
+    }
+  });
+};

@@ -2,8 +2,8 @@ var sys = require('sys'),
     connect = require('connect'),
     app = require('express').createServer(),
     repo = require('./mongo_repository'),
-    pub = __dirname + '/public';
-var fs = require('fs');
+    pub = __dirname + '/public',
+    tags = require('./tags');
 
 connect.compiler.compilers['scss'] = require('scss/compiler');
 
@@ -71,13 +71,9 @@ app.get('/blog', function(req, res) {
 
 app.get('/blog/atom', function(req, res) {
   repo.findAll(function(err, results) {
-    var xml = require('./xmlBase');
-    fs.readFile('./atom.js', function(err, buf) {
-      var vm = require('vm'),
-          tags = xml.createTags(['entry', 'feed', 'link', 'id', 'title', 'subtitle', 'updated', 'author', 'name', 'published', 'content']);
-      tags.posts = results;
+    tags.atom(__dirname + '/atomView.js', results, function(err, feed) {
       res.writeHead(200, { 'Content-Type': 'application/atom+xml' });
-      res.end(vm.runInNewContext(buf.toString(), tags));
+      res.end(feed);
     });
   });
 });

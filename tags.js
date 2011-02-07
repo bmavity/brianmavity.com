@@ -80,7 +80,7 @@ module.exports.atom = function(fileName, locals, callback) {
     atomTags.htmlEncode = htmlEncode;
     merge(atomTags, locals);
     try {
-      callback(null, vm.runInNewContext(file.toString(), atomTags));
+      callback(null, vm.runInNewContext(file, atomTags));
     }
     catch(ex) {
       callback(ex);

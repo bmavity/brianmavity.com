@@ -7,6 +7,12 @@ var it = function(obj, callback) {
   });
 };
 
+var merge = function(target, additional) {
+  it(additional, function(key, val) {
+    target[key] = val;
+  });
+};
+
 var addAttributes = function(attributes, buffer) {
   it(attributes, function(name, val) {
     buffer.push(' ');
@@ -67,12 +73,12 @@ var tag = function(name, attributes) {
   return output.join('');
 };
 
-module.exports.atom = function(fileName, posts, callback) {
+module.exports.atom = function(fileName, locals, callback) {
   fs.readFile(fileName, function(err, file) {
     var atomTags = createTags(['entry', 'feed', 'link', 'id', 'title', 'subtitle', 'updated', 'author', 'name', 'published', 'content']);
     atomTags.doc = doc;
     atomTags.htmlEncode = htmlEncode;
-    atomTags.posts = posts;
+    merge(atomTags, locals);
     try {
       callback(null, vm.runInNewContext(file.toString(), atomTags));
     }

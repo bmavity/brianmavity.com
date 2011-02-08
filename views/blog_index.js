@@ -13,7 +13,7 @@ doc(
     )
     +
     script(
-      (function() {
+      function() {
         var disqus_shortname = 'brianmavity';
         (function() {
           var s = document.createElement('script');
@@ -29,7 +29,7 @@ doc(
           }, false);
           (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
         }());
-     }).toString()
+      }.toString().replace(/^.*\{/, '').replace(/\}\s*$/, '')     
     )
   })
 )

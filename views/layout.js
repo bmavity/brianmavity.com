@@ -37,7 +37,7 @@ doc(
           div({ id: 'footer' }, '&copy;2008-2011 Brian Mavity')
         ),
         script(
-          (function() {
+          function() {
             var _gaq = [['_setAccount', 'UA-5334833-1'], ['_trackPageview']];
             (function(d, t) {
               var g = d.createElement(t),
@@ -46,7 +46,7 @@ doc(
               g.src = '//www.google-analytics.com/ga.js';
               s.parentNode.insertBefore(g, s);
             })(document, 'script');
-          }).toString()
+          }.toString().replace(/^.*\{/, '').replace(/\}\s*$/, '')
         )
       )
     )

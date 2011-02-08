@@ -103,12 +103,14 @@ var html5 = function(fileName, locals, callback) {
     merge(html5Tags, locals);
     try {
       content = vm.runInNewContext(file, html5Tags);
-      if(fileName !== 'layout.js') {
+      console.log(fileName);
+      if(fileName !== __dirname + '/views/layout.js') {
         placeholder = { placeholder: content, cssFiles: [] };
         merge(placeholder, locals);
-        html5('layout.js', placeholder, function(err, layout) {
+        html5(__dirname + '/views/layout.js', placeholder, function(err, layout) {
           if(err) {
             callback(err);
+            throw err;
           } else {
             callback(null, layout);
           }

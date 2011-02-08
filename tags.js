@@ -103,7 +103,6 @@ var html5 = function(fileName, locals, callback) {
     merge(html5Tags, locals);
     try {
       content = vm.runInNewContext(file, html5Tags);
-      console.log(fileName);
       if(fileName !== __dirname + '/views/layout.js') {
         placeholder = { placeholder: content, cssFiles: [] };
         merge(placeholder, locals);

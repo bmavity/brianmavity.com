@@ -53,10 +53,12 @@ app.get('/:staticFileName.html', function(req, res) {
 });
 
 app.get('/contact', function(req, res) {
-  res.render('contact', {
-    locals: {
+  tags.html5(__dirname + '/views/contact.js', {
       cssFiles: ['/css/contact.css']
-    }
+    },
+    function(err, content) {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(content);
   });
 });
 

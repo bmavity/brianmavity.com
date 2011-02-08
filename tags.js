@@ -87,3 +87,23 @@ module.exports.atom = function(fileName, locals, callback) {
     }
   });
 };
+
+module.exports.html5 = function(fileName, locals, callback) {
+  fs.readFile(fileName, function(err, file) {
+    var html5Tags = createTags(['a', 'abbr', 'address', 'area', 'article', 'aside', 'audio', 'b', 'base', 'bdo', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'cite', 'code', 'col', 'colgroup', 'command', 'datalist', 'dd', 'del', 'details', 'dfn', 'div', 'dl', 'dt', 'em', 'embed', 'eventsource', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'mark', 'map', 'menu', 'meta', 'meter', 'nav', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'pre', 'progress', 'q', 'ruby', 'rp', 'rt', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'ul', 'var', 'video', 'wbr']);
+    if(typeof locals === 'function') {
+      callback = locals;
+      locals = {};
+    }
+    html5Tags.doc = doc;
+    html5Tags.htmlEncode = htmlEncode;
+    merge(html5Tags, locals);
+    try {
+      callback(null, vm.runInNewContext(file, html5Tags));
+    }
+    catch(ex) {
+      callback(ex);
+    }
+  });
+};
+

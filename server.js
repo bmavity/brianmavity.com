@@ -41,7 +41,10 @@ app.get('/', function(req, res) {
   if(req.headers.host.indexOf('blog.') === 0) {
     renderBlogIndex(req, res);
   } else {
-    res.render('home', {});
+    tags.html5(__dirname + '/homeView.js', function(err, content) {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(content);
+    });
   }
 });
 

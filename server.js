@@ -30,11 +30,13 @@ var renderBlogIndex = function(req, res) {
 
 var renderBlogPost = function(req, res) {
   repo.find(req.params.slug, function(post) {
-    res.render('post_index', {
-      locals: {
+    tags.html5(__dirname + '/views/post_index.js', {
         cssFiles: ['/css/blog.css'],
         post: post
-      }
+      },
+      function(err, content) {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(content);
     });
   });
 };

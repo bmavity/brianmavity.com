@@ -26,7 +26,7 @@ var addAttributes = function(attributes, buffer) {
 var closeTag = function(name, buffer) {
   buffer.push('</');
   buffer.push(name);
-  buffer.push('>');
+  buffer.push('>\n');
 };
 
 var createTags = function(tagNames) {
@@ -51,7 +51,7 @@ var htmlEncode = function(html) {
 };
 
 var openTag = function(name, attributes, buffer) {
-  buffer.push('<');
+  buffer.push('\n<');
   buffer.push(name);
   addAttributes(attributes, buffer);
   buffer.push('>');

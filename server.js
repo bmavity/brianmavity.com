@@ -63,10 +63,12 @@ app.get('/contact', function(req, res) {
 });
 
 app.get('/experience', function(req, res) {
-  res.render('experience', {
-    locals: {
+  tags.html5(__dirname + '/views/experience.js', {
       cssFiles: ['/css/experience.css']
-    }
+    },
+    function(err, content) {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(content);
   });
 });
 

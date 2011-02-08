@@ -11,9 +11,9 @@ doc(
       link({ rel: 'stylesheet', href: '/css/site-layout.css', type: 'text/css', media: 'screen' }),
       link({ rel: 'stylesheet', href: '/css/brown.css', type: 'text/css', media: 'screen' }),
 
-      //cssFiles.map(function(cssFile) {
-        //return link(rel: 'stylesheet', href: cssFile, type: 'text/css', media: 'screen');
-      //}),
+      cssFiles.map(function(cssFile) {
+        return link({ rel: 'stylesheet', href: cssFile, type: 'text/css', media: 'screen' });
+      }),
 
       body(
         div({ id: 'content' },

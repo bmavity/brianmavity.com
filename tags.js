@@ -104,7 +104,7 @@ var html5 = function(fileName, locals, callback) {
     try {
       content = vm.runInNewContext(file, html5Tags);
       if(fileName !== 'layout.js') {
-        placeholder = { placeholder: content };
+        placeholder = { placeholder: content, cssFiles: [] };
         merge(placeholder, locals);
         html5('layout.js', placeholder, function(err, layout) {
           if(err) {
@@ -119,6 +119,7 @@ var html5 = function(fileName, locals, callback) {
     }
     catch(ex) {
       callback(ex);
+      throw ex;
     }
   });
 };

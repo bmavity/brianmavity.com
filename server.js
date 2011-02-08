@@ -17,11 +17,13 @@ app.use(connect.staticProvider(pub));
 
 var renderBlogIndex = function(req, res) {
   repo.findAll(function(err, results) {
-    res.render('blog_index', {
-      locals: {
+    tags.html5(__dirname + '/views/blog_index.js', {
         cssFiles: ['/css/blog.css'],
         posts: results
-      }
+      },
+      function(err, content) {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(content);
     });
   });
 };

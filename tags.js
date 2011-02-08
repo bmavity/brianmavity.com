@@ -38,7 +38,12 @@ var createTags = function(tagNames) {
 };
 
 var doc = function() {
-  return Array.prototype.slice.call(arguments, 0).join('');
+  return Array.prototype.slice.call(arguments, 0).map(function(arg) {
+    if(Array.isArray(arg)) {
+      return arg.join('');
+    }
+    return arg;
+  }).join('');
 };
 
 var htmlEncode = function(html) {

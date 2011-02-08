@@ -33,10 +33,7 @@ doc(
             ),
             div({ id: 'swooshie' }, div())
           ),
-          div({ id: 'main' },
-            div({ id: 'software-development', 'class': 'percent-block' }),
-            div({ id: 'interaction-design', 'class': 'percent-block' })
-          ),
+          div({ id: 'main' }, placeholder),
           div({ id: 'footer' }, '&copy;2008-2011 Brian Mavity')
         ),
         script(

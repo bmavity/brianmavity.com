@@ -16,72 +16,64 @@ var renderHtml5 = function(res) {
   };
 };
 
-var routes = function(app) {
-  var renderBlogIndex = function(req, res) {
-    repo.findAll(function(err, results) {
-      renderHtml5(res)('blog_index', {
-        cssFiles: ['/css/blog.css'],
-        posts: results
-      });
-    });
-  };
-
-  var renderBlogPost = function(req, res) {
-    repo.find(req.params.slug, function(post) {
-      renderHtml5(res)('post_index', {
-        cssFiles: ['/css/blog.css'],
-        post: post
-      });
-    });
-  };
-
+var regularRoutes = function(app) {
   app.get('/', function(req, res) {
-    if(req.headers.host.indexOf('blog.') === 0) {
-      renderBlogIndex(req, res);
-    } else {
-      renderHtml5(res)('home');
-    }
+    renderHtml5(res)('home', {});
   });
 
   app.get('/:staticFileName.html', function(req, res) {
     res.redirect(req.params.staticFileName, 301);
   });
 
-  app.get('/contact', function(req, res) {
-    renderHtml5(res)('contact', {
-      cssFiles: ['/css/contact.css']
+  app.get('/:view', function(req, res) {
+    var view = req.params.view;
+    renderHtml5(res)(view, {
+      cssFiles: ['/css/' + view + '.css']
     });
   });
+};
 
-  app.get('/experience', function(req, res) {
-    renderHtml5(res)('experience', {
-        cssFiles: ['/css/experience.css']
-      },
-      function(err, content) {
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end(content);
-    });
-  });
-
-  app.get('/blog', function(req, res) {
-    renderBlogIndex(req, res);
-  });
-
-  app.get('/blog/atom', function(req, res) {
+var blogRoutes = function(app) {
+  app.get('/', function(req, res) {
     repo.findAll(function(err, results) {
-      tags.atom(__dirname + '/atomView', { posts: results }, function(err, feed) {
-        res.writeHead(200, { 'Content-Type': 'application/atom+xml' });
-        res.end(feed);
+      renderHtml5(res)('blog_index', {
+        cssFiles: ['/css/blog.css'],
+        posts: results
       });
     });
   });
 
-  app.get('/blog/:slug', renderBlogPost);
-}
+  app.get('/:slug', function(req, res) {
+    repo.find(req.params.slug, function(post) {
+      renderHtml5(res)('post_index', {
+        cssFiles: ['/css/blog.css'],
+        post: post
+      });
+    });
+  });
 
+  app.get('/atom', function(req, res) {
+    repo.findall(function(err, results) {
+      tags.atom(__dirname + '/atomview', { posts: results }, function(err, feed) {
+        res.writehead(200, { 'content-type': 'application/atom+xml' });
+        res.end(feed);
+      });
+    });
+  });
+};
 
-var server = connect.createServer();
-server.use(connect.logger());
-server.use(connect.staticProvider(pub));
-server.use(connect.router(routes));
-server.listen(parseInt(process.env.PORT, 10) || 8000);
+var mainServer = connect.vhost('localhost', connect.createServer(
+  connect.logger(),
+  connect.staticProvider(pub),
+  connect.router(regularRoutes)
+));
+var blogServer = connect.vhost('blog.localhost', connect.createServer(
+  connect.logger(),
+  connect.staticProvider(pub),
+  connect.router(blogRoutes)
+));
+var server = connect.createServer(
+  connect.logger(),
+  mainServer,
+  blogServer
+).listen(parseInt(process.env.PORT, 10) || 8000);

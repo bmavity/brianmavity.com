@@ -1,7 +1,7 @@
 doc(
   posts.map(function(post) {
     return h2(
-      a({ href: '/blog/' + post.slug }, post.title)
+      a({ href: '/' + post.slug }, post.title)
     )
     +
     div({ 'class': 'post' },

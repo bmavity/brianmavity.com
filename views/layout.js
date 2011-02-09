@@ -25,10 +25,10 @@ doc(
             ),
             div({ id: 'links' },
               ul(
-                li(a({ href: '/' }, 'home')),
-                li(a({ href: '/blog' }, 'blog')),
-                li(a({ href: '/experience' }, 'experience')),
-                li(a({ href: '/contact' }, 'contact'))
+                li(a({ href: 'http://localhost:8000/' }, 'home')),
+                li(a({ href: 'http://blog.localhost:8000/' }, 'blog')),
+                li(a({ href: 'http://localhost:8000/experience' }, 'experience')),
+                li(a({ href: 'http://localhost:8000/contact' }, 'contact'))
               )
             ),
             div({ id: 'swooshie' }, div())

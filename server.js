@@ -2,11 +2,12 @@ var connect = require('connect'),
     repo = require('./mongo_repository'),
     pub = __dirname + '/public',
     tags = require('./tags'),
+    env = process.env,
     context = {
-      blog: process.env.blogApp || 'blog.localhost',
-      main: process.env.mainApp || 'localhost'
+      blog: env.BLOG_APP || 'blog.localhost',
+      main: env.MAIN_APP || 'localhost'
     },
-    port = parseInt(process.env.PORT, 10) || 8000;
+    port = parseInt(env.PORT, 10) || 8000;
 
 var urlize = function(host) {
   return 'http://' + host + ':' + port;

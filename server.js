@@ -61,20 +61,20 @@ var blogRoutes = function(app) {
     });
   });
 
+  app.get('/atom', function(req, res) {
+    repo.findAll(function(err, results) {
+      tags.atom(__dirname + '/atomView.js', { posts: results }, function(err, feed) {
+        res.writeHead(200, { 'Content-Type': 'application/atom+xml' });
+        res.end(feed);
+      });
+    });
+  });
+
   app.get('/:slug', function(req, res) {
     repo.find(req.params.slug, function(post) {
       renderHtml5(res)('post_index', {
         cssFiles: ['/css/blog.css'],
         post: post
-      });
-    });
-  });
-
-  app.get('/atom', function(req, res) {
-    repo.findall(function(err, results) {
-      tags.atom(__dirname + '/atomview', { posts: results }, function(err, feed) {
-        res.writehead(200, { 'content-type': 'application/atom+xml' });
-        res.end(feed);
       });
     });
   });

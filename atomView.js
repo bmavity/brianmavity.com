@@ -10,7 +10,7 @@ var generateUniqueId = function(post) {
 doc(
   '<?xml version="1.0" encoding="utf-8"?>',
   feed({ xmlns: 'http://www.w3.org/2005/Atom' },
-    link({ rel: 'self', href: 'http://blog.brianmavity.com/blog/atom' }),
+    link({ rel: 'self', href: 'http://blog.brianmavity.com/atom' }),
     id('tag:brianmavity.com,2008:/blog'),
     title('brianmavity.com'),
     subtitle('Learn with me'),

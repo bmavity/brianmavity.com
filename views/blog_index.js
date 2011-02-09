@@ -8,7 +8,7 @@ doc(
       p(post.publishDate + ' by ' + post.author),
       div({ 'class': 'content' }, post.content),
       div({ 'class': 'comments' }, 
-        a({ href: 'http://blog.brianmavity.com/' + post.slug + '#disqus_thread' }, 'Comments')
+        a({ href: '/' + post.slug + '#disqus_thread' }, 'Comments')
       )
     )
     +

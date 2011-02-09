@@ -19,16 +19,16 @@ doc(
         div({ id: 'content' },
           div({ id: 'header' },
             div({ id: 'logo' },
-              a({ href: '/' }, 'brianmavity.com'),
+              a({ href: context.main + '/' }, 'brianmavity.com'),
               p('software development'),
               p('interaction design')
             ),
             div({ id: 'links' },
               ul(
-                li(a({ href: 'http://localhost:8000/' }, 'home')),
-                li(a({ href: 'http://blog.localhost:8000/' }, 'blog')),
-                li(a({ href: 'http://localhost:8000/experience' }, 'experience')),
-                li(a({ href: 'http://localhost:8000/contact' }, 'contact'))
+                li(a({ href: context.main + '/'}, 'home')),
+                li(a({ href: context.blog + '/'}, 'blog')),
+                li(a({ href: context.main + '/experience'}, 'experience')),
+                li(a({ href: context.main + '/contact'}, 'contact'))
               )
             ),
             div({ id: 'swooshie' }, div())

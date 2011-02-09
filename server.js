@@ -1,11 +1,28 @@
 var connect = require('connect'),
     repo = require('./mongo_repository'),
     pub = __dirname + '/public',
-    tags = require('./tags');
+    tags = require('./tags'),
+    context = {
+      blog: process.env.blogApp || 'blog.localhost',
+      main: process.env.mainApp || 'localhost'
+    },
+    port = parseInt(process.env.PORT, 10) || 8000;
+
+var urlize = function(host) {
+  return 'http://' + host + ':' + port;
+};
+
+var createContext = function(req) {
+  return {
+    blog: urlize(context.blog),
+    main: urlize(context.main)
+  };
+};
 
 var renderHtml5 = function(res) {
   return function(view, vars) {
     var viewFileName = __dirname + '/views/' + view + '.js';
+    vars.context = createContext();
     tags.html5(viewFileName, vars, function(err, content) {
       res.writeHead(200, {
         'Content-Type': 'text/html',
@@ -18,7 +35,7 @@ var renderHtml5 = function(res) {
 
 var regularRoutes = function(app) {
   app.get('/', function(req, res) {
-    renderHtml5(res)('home', {});
+    renderHtml5(res)('home', createContext(req));
   });
 
   app.get('/:staticFileName.html', function(req, res) {
@@ -62,12 +79,12 @@ var blogRoutes = function(app) {
   });
 };
 
-var mainServer = connect.vhost('localhost', connect.createServer(
+var mainServer = connect.vhost(context.main, connect.createServer(
   connect.logger(),
   connect.staticProvider(pub),
   connect.router(regularRoutes)
 ));
-var blogServer = connect.vhost('blog.localhost', connect.createServer(
+var blogServer = connect.vhost(context.blog, connect.createServer(
   connect.logger(),
   connect.staticProvider(pub),
   connect.router(blogRoutes)
@@ -76,4 +93,4 @@ var server = connect.createServer(
   connect.logger(),
   mainServer,
   blogServer
-).listen(parseInt(process.env.PORT, 10) || 8000);
+).listen(port);

@@ -1,32 +1,36 @@
-var sys = require('sys'),
-    connect = require('connect'),
+var connect = require('connect'),
     repo = require('./mongo_repository'),
     pub = __dirname + '/public',
     tags = require('./tags');
 
+var renderHtml5 = function(res) {
+  return function(view, vars) {
+    var viewFileName = __dirname + '/views/' + view + '.js';
+    tags.html5(viewFileName, vars, function(err, content) {
+      res.writeHead(200, {
+        'Content-Type': 'text/html',
+        'Content-Length': content.length
+      });
+      res.end(content);
+    });
+  };
+};
+
 var routes = function(app) {
   var renderBlogIndex = function(req, res) {
     repo.findAll(function(err, results) {
-      tags.html5(__dirname + '/views/blog_index.js', {
-          cssFiles: ['/css/blog.css'],
-          posts: results
-        },
-        function(err, content) {
-          res.writeHead(200, { 'Content-Type': 'text/html' });
-          res.end(content);
+      renderHtml5(res)('blog_index', {
+        cssFiles: ['/css/blog.css'],
+        posts: results
       });
     });
   };
 
   var renderBlogPost = function(req, res) {
     repo.find(req.params.slug, function(post) {
-      tags.html5(__dirname + '/views/post_index.js', {
-          cssFiles: ['/css/blog.css'],
-          post: post
-        },
-        function(err, content) {
-          res.writeHead(200, { 'Content-Type': 'text/html' });
-          res.end(content);
+      renderHtml5(res)('post_index', {
+        cssFiles: ['/css/blog.css'],
+        post: post
       });
     });
   };
@@ -35,10 +39,7 @@ var routes = function(app) {
     if(req.headers.host.indexOf('blog.') === 0) {
       renderBlogIndex(req, res);
     } else {
-      tags.html5(__dirname + '/views/home.js', function(err, content) {
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end(content);
-      });
+      renderHtml5(res)('home');
     }
   });
 
@@ -47,17 +48,13 @@ var routes = function(app) {
   });
 
   app.get('/contact', function(req, res) {
-    tags.html5(__dirname + '/views/contact.js', {
-        cssFiles: ['/css/contact.css']
-      },
-      function(err, content) {
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end(content);
+    renderHtml5(res)('contact', {
+      cssFiles: ['/css/contact.css']
     });
   });
 
   app.get('/experience', function(req, res) {
-    tags.html5(__dirname + '/views/experience.js', {
+    renderHtml5(res)('experience', {
         cssFiles: ['/css/experience.css']
       },
       function(err, content) {
@@ -72,7 +69,7 @@ var routes = function(app) {
 
   app.get('/blog/atom', function(req, res) {
     repo.findAll(function(err, results) {
-      tags.atom(__dirname + '/atomView.js', { posts: results }, function(err, feed) {
+      tags.atom(__dirname + '/atomView', { posts: results }, function(err, feed) {
         res.writeHead(200, { 'Content-Type': 'application/atom+xml' });
         res.end(feed);
       });

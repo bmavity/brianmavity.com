@@ -98,7 +98,7 @@ var blogServer = connect.vhost(context.blog, connect.createServer(
 ));
 if(env.NON_WWW) {
   var redirect = connect.vhost(env.NON_WWW, connect.createServer(function(req, res) {
-    res.writeHead(301, { Location: createContext().main });
+    res.writeHead(301, { Location: createContext().main + req.url });
     res.end();
   }));
   var server = connect.createServer(

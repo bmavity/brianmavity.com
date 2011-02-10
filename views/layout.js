@@ -2,6 +2,8 @@ doc(
   '<!DOCTYPE html>',
   html(
     head(
+      meta({ name: 'google-site-verification', content: 'UzvX9X28PSiCcEEZD0ZThXnqibBtUgae7EVaTzwuWPk' }),
+
       title('Software Development, Interaction Design'),
 
       link({ rel: 'alternate', href: 'http://feeds.feedburner.com/brianmavitycomblog', type:'application/atom+xml', title: 'brianmavity.com - Atom' }),

@@ -56,10 +56,7 @@ var regularRoutes = function(app) {
   });
 
   app.get('/:view', function(req, res) {
-    var view = req.params.view;
-    renderHtml5(res)(view, {
-      cssFiles: ['/css/' + view + '.css']
-    });
+    renderHtml5(res)(req.params.view, {});
   });
 };
 
@@ -67,7 +64,6 @@ var blogRoutes = function(app) {
   app.get('/', function(req, res) {
     repo.findAll(function(err, results) {
       renderHtml5(res)('blog_index', {
-        cssFiles: ['/css/blog.css'],
         posts: results
       });
     });
@@ -85,7 +81,6 @@ var blogRoutes = function(app) {
   app.get('/:slug', function(req, res) {
     repo.find(req.params.slug, function(post) {
       renderHtml5(res)('post_index', {
-        cssFiles: ['/css/blog.css'],
         post: post
       });
     });

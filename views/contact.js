@@ -1,4 +1,6 @@
 doc(
+  css('/css/contact.css'),
+
   div({ 'class': 'contact' },
     h1('Contact'),
 

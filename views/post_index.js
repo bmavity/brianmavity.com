@@ -1,4 +1,6 @@
 doc(
+  css('/css/blog.css'),
+ 
   h1(post.title),
 
   div({ 'class': 'post' },

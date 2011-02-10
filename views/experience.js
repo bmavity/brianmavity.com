@@ -17,6 +17,8 @@ function position(positionData) {
 }
 
 doc(
+  css('/css/experience.css'),
+
   div({ 'class': 'experience' },
     h1('Experience'),
     

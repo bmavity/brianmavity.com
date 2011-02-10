@@ -1,4 +1,6 @@
 doc(
+  css('/css/blog.css'),
+ 
   posts.map(function(post) {
     return h2(
       a({ href: '/' + post.slug }, post.title)

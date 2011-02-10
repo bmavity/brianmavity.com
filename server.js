@@ -40,7 +40,8 @@ var regularRoutes = function(app) {
   });
 
   app.get('/:staticFileName.html', function(req, res) {
-    res.redirect(req.params.staticFileName, 301);
+    res.writeHead(301, { Location: req.params.staticFileName });
+    res.end();
   });
 
   app.get('/:view', function(req, res) {

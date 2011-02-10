@@ -7,6 +7,7 @@ var connect = require('connect'),
       blog: env.BLOG_APP || 'blog.localhost',
       main: env.MAIN_APP || 'localhost'
     },
+    isProduction = env.PRODUCTION,
     port = parseInt(env.PORT, 10) || 8000;
 
 var urlize = function(host) {
@@ -91,31 +92,30 @@ var blogRoutes = function(app) {
   });
 };
 
-var mainServer = connect.vhost(context.main, connect.createServer(
-  connect.logger(),
-  connect.staticProvider(pub),
-  connect.router(regularRoutes)
-));
-var blogServer = connect.vhost(context.blog, connect.createServer(
-  connect.logger(),
-  connect.staticProvider(pub),
-  connect.router(blogRoutes)
-));
+var mainServer = connect.createServer();
+if(!isProduction) {
+  mainServer.use(connect.logger());
+}
+mainServer.use(connect.staticProvider(pub));
+mainServer.use(connect.router(regularRoutes));
+
+var blogServer = connect.createServer();
+if(!isProduction) {
+  blogServer.use(connect.logger());
+}
+blogServer.use(connect.staticProvider(pub));
+blogServer.use(connect.router(blogRoutes));
+
+var server = connect.createServer();
+if(!isProduction) {
+  server.use(connect.logger());
+}
+server.use(connect.vhost(context.main, mainServer));
+server.use(connect.vhost(context.blog, blogServer));
 if(env.NON_WWW) {
-  var redirect = connect.vhost(env.NON_WWW, connect.createServer(function(req, res) {
+  server.use(connect.vhost(env.NON_WWW, connect.createServer(function(req, res) {
     res.writeHead(301, { Location: createContext().main + req.url });
     res.end();
-  }));
-  var server = connect.createServer(
-    connect.logger(),
-    mainServer,
-    blogServer,
-    redirect
-  ).listen(port);
-} else {
-  var server = connect.createServer(
-    connect.logger(),
-    mainServer,
-    blogServer
-  ).listen(port);
+  })));
 }
+server.listen(port);

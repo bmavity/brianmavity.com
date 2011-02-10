@@ -11,7 +11,7 @@ var connect = require('connect'),
 
 // stolen from express.js
 require('http').ServerResponse.prototype.redirect = function(url, status){
-  var basePath = this.app.set('home') || '/'
+  var basePath = '/'
     , status = status || 302
     , body;
 

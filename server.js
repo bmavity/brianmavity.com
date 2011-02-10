@@ -9,6 +9,42 @@ var connect = require('connect'),
     },
     port = parseInt(env.PORT, 10) || 8000;
 
+// stolen from express.js
+require('http').ServerResponse.prototype.redirect = function(url, status){
+  var basePath = this.app.set('home') || '/'
+    , status = status || 302
+    , body;
+
+  // Setup redirect map
+  var map = {
+    back: this.req.headers.referrer || this.req.headers.referer || basePath,
+    home: basePath
+  };
+
+  // Support custom redirect map
+  map.__proto__ = this.app.redirects;
+
+  // Attempt mapped redirect
+  var mapped = typeof map[url] === 'function'
+    ? map[url](this.req, this)
+    : map[url];
+
+  // Perform redirect
+  url = mapped || url;
+
+  // Support text/{plain,html} by default
+  if (this.req.accepts('html')) {
+    body = '<p>' + http.STATUS_CODES[status] + '. Redirecting to <a href="' + url + '">' + url + '</a></p>';
+    this.header('Content-Type', 'text/html');
+  } else {
+    body = http.STATUS_CODES[status] + '. Redirecting to ' + url;
+    this.header('Content-Type', 'text/plain');
+  }
+
+  // Respond
+  this.send(body, { Location: url }, status);
+};
+
 var urlize = function(host) {
   return 'http://' + host + ':' + port;
 };

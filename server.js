@@ -96,9 +96,9 @@ if(env.NON_WWW) {
   }));
   var server = connect.createServer(
     connect.logger(),
-    redirect,
     mainServer,
-    blogServer
+    blogServer,
+    redirect
   ).listen(port);
 } else {
   var server = connect.createServer(

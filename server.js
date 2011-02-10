@@ -90,8 +90,20 @@ var blogServer = connect.vhost(context.blog, connect.createServer(
   connect.staticProvider(pub),
   connect.router(blogRoutes)
 ));
-var server = connect.createServer(
-  connect.logger(),
-  mainServer,
-  blogServer
-).listen(port);
+if(env.NON_WWW) {
+  var redirect = connect.vhost(env.NON_WWW, connect.createServer(function(req, res) {
+    res.redirect(createContext().main, 301);
+  }));
+  var server = connect.createServer(
+    connect.logger(),
+    redirect,
+    mainServer,
+    blogServer
+  ).listen(port);
+} else {
+  var server = connect.createServer(
+    connect.logger(),
+    mainServer,
+    blogServer
+  ).listen(port);
+}

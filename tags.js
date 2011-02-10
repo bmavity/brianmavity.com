@@ -37,6 +37,12 @@ var createTags = function(tagNames) {
   return tags;
 };
 
+var css = function(href, name, media) {
+  var name = name || 'style',
+      media = media || 'screen';
+  return tag('link', { rel: 'stylesheet', href: href, media: media });
+};
+
 var doc = function() {
   return Array.prototype.slice.call(arguments, 0).map(function(arg) {
     if(Array.isArray(arg)) {
@@ -103,6 +109,7 @@ var html5 = function(fileName, locals, callback) {
       callback = locals;
       locals = {};
     }
+    html5Tags.css = css;
     html5Tags.doc = doc;
     html5Tags.htmlEncode = htmlEncode;
     merge(html5Tags, locals);

@@ -39,6 +39,11 @@ var regularRoutes = function(app) {
     renderHtml5(res)('home', createContext(req));
   });
 
+  app.get('/blog/:slug', function(req, res) {
+    res.writeHead(301, { Location: createContext().blog + '/' + req.params.slug });
+    res.end();
+  });
+
   app.get('/:staticFileName.html', function(req, res) {
     res.writeHead(301, { Location: req.params.staticFileName });
     res.end();

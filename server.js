@@ -1,7 +1,9 @@
 var connect = require('connect'),
     repo = require('./mongo_repository'),
     pub = __dirname + '/public',
-    tags = require('./tags'),
+    tags = require('./tags')({
+      viewFolder: __dirname + '/views/'
+    }),
     env = process.env,
     context = {
       blog: env.BLOG_APP || 'blog.localhost',
@@ -23,9 +25,8 @@ var createContext = function(req) {
 
 var renderHtml5 = function(res) {
   return function(view, vars) {
-    var viewFileName = __dirname + '/views/' + view + '.js';
     vars.context = createContext();
-    tags.html5(viewFileName, vars, function(err, content) {
+    tags.html5(view, vars, function(err, content) {
       res.writeHead(200, {
         'Content-Type': 'text/html',
         'Content-Length': content.length

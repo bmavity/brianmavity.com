@@ -94,7 +94,7 @@ var tag = function(name, attributes) {
   return output.join('');
 };
 
-module.exports.atom = function(fileName, locals, callback) {
+var atom = function(fileName, locals, callback) {
   fs.readFile(fileName, function(err, file) {
     var atomTags = createTags(['entry', 'feed', 'link', 'id', 'title', 'subtitle', 'updated', 'author', 'name', 'published', 'content']);
     atomTags.doc = doc;
@@ -109,9 +109,9 @@ module.exports.atom = function(fileName, locals, callback) {
   });
 };
 
-
-var html5 = function(fileName, locals, callback) {
-  fs.readFile(fileName, function(err, file) {
+var html5 = function(view, locals, callback) {
+  var viewFileName = viewFolder + view + '.js';  
+  fs.readFile(viewFileName, function(err, file) {
     var html5Tags = createTags(['a', 'abbr', 'address', 'area', 'article', 'aside', 'audio', 'b', 'base', 'bdo', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'cite', 'code', 'col', 'colgroup', 'command', 'datalist', 'dd', 'del', 'details', 'dfn', 'div', 'dl', 'dt', 'em', 'embed', 'eventsource', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'mark', 'map', 'menu', 'meta', 'meter', 'nav', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'pre', 'progress', 'q', 'ruby', 'rp', 'rt', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'ul', 'var', 'video', 'wbr']),
         css = locals.css || createCss(),
         content,
@@ -126,10 +126,10 @@ var html5 = function(fileName, locals, callback) {
     merge(html5Tags, locals);
     try {
       content = vm.runInNewContext(file, html5Tags);
-      if(fileName !== __dirname + '/views/layout.js') {
+      if(view !== layoutView) {
         placeholder = { placeholder: content, css: css.tag, cssFiles: css.files };
         merge(placeholder, locals);
-        html5(__dirname + '/views/layout.js', placeholder, function(err, layout) {
+        html5(layoutView, placeholder, function(err, layout) {
           if(err) {
             callback(err);
             throw err;
@@ -148,4 +148,13 @@ var html5 = function(fileName, locals, callback) {
   });
 };
 
-module.exports.html5 = html5;
+
+var viewFolder,
+    layoutView = 'layout';
+module.exports = function(config) {
+  viewFolder = config.viewFolder;
+  return {
+    atom: atom,
+    html5: html5
+  };
+};

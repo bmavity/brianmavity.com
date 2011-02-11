@@ -1,7 +1,7 @@
 var connect = require('connect'),
     repo = require('./mongo_repository'),
     pub = __dirname + '/public',
-    tags = require('./tags')({
+    tags = require('tags')({
       viewFolder: __dirname + '/views/'
     }),
     env = process.env,

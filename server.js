@@ -72,7 +72,7 @@ var blogRoutes = function(app) {
 
   app.get('/atom', function(req, res) {
     repo.findAll(function(err, results) {
-      tags.atom(__dirname + '/atomView.js', { posts: results }, function(err, feed) {
+      tags.atom(__dirname + '/node_modules/tags/atomView.js', { posts: results }, function(err, feed) {
         res.writeHead(200, { 'Content-Type': 'application/atom+xml' });
         res.end(feed);
       });

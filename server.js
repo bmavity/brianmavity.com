@@ -79,6 +79,11 @@ var blogRoutes = function(app) {
     });
   });
 
+  app.get('/blog/:slug', function(req, res) {
+    res.writeHead(301, { Location: '/' + req.params.slug });
+    res.end();
+  });
+
   app.get('/:slug', function(req, res) {
     repo.find(req.params.slug, function(post) {
       renderHtml5(res)('post_index', {

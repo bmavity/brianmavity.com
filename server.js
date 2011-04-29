@@ -97,14 +97,14 @@ var mainServer = connect.createServer();
 if(!isProduction) {
   mainServer.use(connect.logger());
 }
-mainServer.use(connect.staticProvider(pub));
+mainServer.use(connect.static(pub));
 mainServer.use(connect.router(regularRoutes));
 
 var blogServer = connect.createServer();
 if(!isProduction) {
   blogServer.use(connect.logger());
 }
-blogServer.use(connect.staticProvider(pub));
+blogServer.use(connect.static(pub));
 blogServer.use(connect.router(blogRoutes));
 
 var server = connect.createServer();

@@ -11,7 +11,7 @@ var connect = require('connect'),
     },
     isProduction = env.PRODUCTION,
     port = parseInt(env.PORT, 10) || 8000;
-/*
+
 var urlize = function(host) {
   return 'http://' + host + ':' + port;
 };
@@ -35,7 +35,7 @@ var renderHtml5 = function(res) {
     });
   };
 };
-*/
+
 var regularRoutes = function(app) {
   app.get('/', function(req, res) {
     renderHtml5(res)('home', createContext(req));

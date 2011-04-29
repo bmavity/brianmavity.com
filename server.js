@@ -1,7 +1,7 @@
 var connect = require('connect'),
     repo = require('./mongo_repository'),
     pub = __dirname + '/public',
-    tags = require('./node_modules/tags/tags')({
+    tags = require('tags')({
       viewFolder: __dirname + '/views/'
     }),
     env = process.env,
@@ -62,6 +62,11 @@ var regularRoutes = function(app) {
 };
 
 var blogRoutes = function(app) {
+  app.get('/blog/:slug', function(req, res) {
+    res.writeHead(301, { Location: createContext().blog + '/' + req.params.slug });
+    res.end();
+  });
+
   app.get('/', function(req, res) {
     repo.findAll(function(err, results) {
       renderHtml5(res)('blog_index', {
@@ -79,11 +84,6 @@ var blogRoutes = function(app) {
     });
   });
 
-  app.get('/blog/:slug', function(req, res) {
-    res.writeHead(301, { Location: '/' + req.params.slug });
-    res.end();
-  });
-
   app.get('/:slug', function(req, res) {
     repo.find(req.params.slug, function(post) {
       renderHtml5(res)('post_index', {
@@ -97,14 +97,14 @@ var mainServer = connect.createServer();
 if(!isProduction) {
   mainServer.use(connect.logger());
 }
-mainServer.use(connect.staticProvider(pub));
+mainServer.use(connect.static(pub));
 mainServer.use(connect.router(regularRoutes));
 
 var blogServer = connect.createServer();
 if(!isProduction) {
   blogServer.use(connect.logger());
 }
-blogServer.use(connect.staticProvider(pub));
+blogServer.use(connect.static(pub));
 blogServer.use(connect.router(blogRoutes));
 
 var server = connect.createServer();

@@ -1,4 +1,4 @@
-var connect = require('connect'),
+/*var connect = require('connect'),
     repo = require('./mongo_repository'),
     pub = __dirname + '/public',
     tags = require('tags')({
@@ -119,4 +119,9 @@ if(env.NON_WWW) {
     res.end();
   })));
 }
-server.listen(port);
+*/
+require('http').createServer(function(req, res) {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Hellooooo???');
+});
+server.listen(80);

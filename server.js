@@ -11,7 +11,7 @@ var connect = require('connect'),
     },
     isProduction = env.PRODUCTION,
     port = parseInt(env.PORT, 10) || 8000;
-
+/*
 var urlize = function(host) {
   return 'http://' + host + ':' + port;
 };
@@ -119,4 +119,8 @@ if(env.NON_WWW) {
     res.end();
   })));
 }
+
+*/
+
+var server = require('http').createServer(port);
 server.listen(port);

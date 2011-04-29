@@ -1,5 +1,5 @@
-/*var connect = require('connect'),
-    repo = require('./mongo_repository'),
+var connect = require('connect'),
+    repo = {},//require('./mongo_repository'),
     pub = __dirname + '/public',
     tags = require('tags')({
       viewFolder: __dirname + '/views/'
@@ -119,8 +119,4 @@ if(env.NON_WWW) {
     res.end();
   })));
 }
-*/
-require('http').createServer(function(req, res) {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Hellooooo???');
-}).listen(80);
+server.listen(port);

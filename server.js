@@ -35,7 +35,7 @@ var renderHtml5 = function(res) {
     });
   };
 };
-
+*/
 var regularRoutes = function(app) {
   app.get('/', function(req, res) {
     renderHtml5(res)('home', createContext(req));
@@ -60,7 +60,7 @@ var regularRoutes = function(app) {
     renderHtml5(res)(req.params.view, {});
   });
 };
-
+/*
 var blogRoutes = function(app) {
   app.get('/blog/:slug', function(req, res) {
     res.writeHead(301, { Location: createContext().blog + '/' + req.params.slug });
@@ -92,14 +92,14 @@ var blogRoutes = function(app) {
     });
   });
 };
-
+*/
 var mainServer = connect.createServer();
 if(!isProduction) {
   mainServer.use(connect.logger());
 }
 mainServer.use(connect.static(pub));
 mainServer.use(connect.router(regularRoutes));
-
+/*
 var blogServer = connect.createServer();
 if(!isProduction) {
   blogServer.use(connect.logger());
@@ -121,9 +121,11 @@ if(env.NON_WWW) {
 }
 
 */
-
+/*
 var server = require('http').createServer(function(req, res) {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.end('ouchies');
 });
+*/
+var server = mainServer;
 server.listen(port);

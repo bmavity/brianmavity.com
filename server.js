@@ -122,5 +122,8 @@ if(env.NON_WWW) {
 
 */
 
-var server = require('http').createServer(port);
+var server = require('http').createServer(function(req, res) {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('ouchies');
+});
 server.listen(port);

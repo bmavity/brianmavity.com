@@ -111,6 +111,11 @@ var server = connect.createServer();
 if(!isProduction) {
   server.use(connect.logger());
 }
+//server.use(connect.vhost(context.main + '/clippy', require('./clippy/server').vhost()));
+server.use(connect.vhost(context.main + '/clippy', connect.createServer(function(req, res) {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('clippy!');
+})));
 server.use(connect.vhost(context.main, mainServer));
 server.use(connect.vhost(context.blog, blogServer));
 if(env.NON_WWW) {
@@ -119,5 +124,7 @@ if(env.NON_WWW) {
     res.end();
   })));
 }
+
+
 server.listen(port);
 

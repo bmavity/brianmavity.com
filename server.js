@@ -128,3 +128,6 @@ if(env.NON_WWW) {
 
 server.listen(port);
 
+process.on('uncaughtException', function(err) {
+  console.log(err);
+});
